@@ -1,8 +1,10 @@
-from typing import Dict
+from typing import Dict, List
 class Pass:
     mdict: Dict
+    check: List[str]
     def __init__(self):
         self.mdict = {}
+        self.check = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
         pass
 
     def add_line(self, line: str):
@@ -14,11 +16,23 @@ class Pass:
 
     def is_valid(self) -> bool:
         keys = self.mdict.keys()
-        check = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-        for i in check:
+        
+        for i in self.check:
             if i not in keys:
                 return False
         return True
+
+    def key(self, key:str) -> str:
+        return f"{key}: {self.mdict[key]}"
+
+    def __str__(self) -> str:
+        retstr = ""
+        
+        for key in self.check:
+            retstr += self.key(key)
+            retstr += ",\t"
+        
+        return retstr
 
 def start():
     lines = []
@@ -29,10 +43,13 @@ def start():
     valid = 0
     for line in lines:
         if len(line) == 0:
-            valid += 1 if passport.is_valid() else 0
+            if passport.is_valid():
+                valid += 1
+                # print(passport)
             passport = Pass()
         else:
             passport.add_line(line)
+    valid += 1 if passport.is_valid() else 0
 
     print("Hello", valid)
     
