@@ -2,7 +2,7 @@
 def start():
     lines = []
     with open('input1', 'r') as f:
-       lines = [i for i in f.readlines()]
+       lines = [i.strip() for i in f.readlines()]
 
     print("Hello", lines)
     
